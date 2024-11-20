@@ -94,13 +94,19 @@
                     <li>Radio</li>
                 </ul>
                 <div class="search">
-                    <form method="GET">
-                        <i class="bi bi-search"></i>
-                        <input type="text" name="search" placeholder="Tìm kiếm bài hát...">
-                        <button type="submit">Tìm kiếm</button>
-                    </form>
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Tìm kiếm bài hát">
+                    <div class="search_results">
+                        <!-- <a href="" class="card">
+                            <img src="img/1.jpg" alt="">
+                            <div class="content">
+                                On My Way
+                                <div class="subtitle">Alan Walker</div>
+                            </div>
+                        </a> -->
+                    </div>
                 </div>
-
+                
                 <div class="login-btn" id="login-btn">
                     <a href="login.php"><button>Đăng Nhập</button></a>
                 </div>
@@ -114,9 +120,9 @@
                 <div class="buttons">
                     <button>PLAY</button>
                     <button>FOLLOW</button>
-                </div>
+                </div>              
             </div>
-            //món dưới này để ẩn hiện nút đăng nhập và đăng kí
+            <!-- món dưới này để ẩn hiện nút đăng nhập và đăng kí -->
             <script>
                 window.onload = function() {
                     if (sessionStorage.getItem("isLoggedIn") === "true") {

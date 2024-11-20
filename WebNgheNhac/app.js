@@ -117,6 +117,89 @@ Array.from(document.getElementsByClassName('songItem')).forEach((e, i) => {
 });
 
 
+//start search
+let search_results = document.getElementsByClassName('search_results')[0];
+songs.forEach(element =>{
+    const {id, songName, poster}=element;
+    // console.log(poster);
+    let card = document.createElement('a');
+    card.classList.add('card');
+    card.href ="#" + id;
+    card.innerHTML=`
+    <img src="${poster}" alt="">
+                            <div class="content">
+                                ${songName}
+                            </div>
+    `;
+    search_results.appendChild(card);
+});
+
+let input = document.getElementsByTagName('input')[0];
+
+input.addEventListener('keyup', () => {
+    let input_value = input.value.toUpperCase();
+    let items = search_results.getElementsByTagName('a');
+
+    for (let index = 0; index < items.length; index++) {
+        let as = items[index].getElementsByClassName('content')[0];
+        let text_value = as.textContent || as.innerHTML;
+
+        if (text_value.toUpperCase().indexOf(input_value) > -1) {
+            items[index].style.display = 'flex';
+
+            // Xử lý sự kiện click để phát nhạc
+            items[index].addEventListener('click', () => {
+                let selectedSongId = songs[index].id;
+
+                // Cập nhật bài hát
+                music.src = `audio/${selectedSongId}.mp3`;
+                poster_master_play.src = `img/${selectedSongId}.jpg`;
+                music.play();
+
+                // Cập nhật giao diện và thông tin
+                masterPlay.classList.remove('bi-play-fill');
+                masterPlay.classList.add('bi-pause-fill');
+                wave.classList.add('active1');
+                title.innerHTML = sanitizeFileName(songs[index].songName);
+
+                // Làm nổi bật bài hát được chọn
+                makeAllBackground();
+                Array.from(document.getElementsByClassName('songItem'))[index].style.background = "rgb(105, 105, 105, .1)";
+                makeAllplays();
+            });
+        } else {
+            items[index].style.display = 'none';
+        }
+    }
+});
+//end search
+
+// Hàm phát bài hát theo id
+const playMusicById = (id) => {
+    let selectedSong = songs.find((s) => s.id == id);
+
+    if (selectedSong) {
+        index = id;
+        music.src = `audio/${id}.mp3`;
+        poster_master_play.src = `img/${id}.jpg`;
+        title.innerHTML = sanitizeFileName(selectedSong.songName);
+
+        music.play();
+        wave.classList.add('active1');
+        masterPlay.classList.remove('bi-play-fill');
+        masterPlay.classList.add('bi-pause-fill');
+
+        download_music.setAttribute('href', `audio/${id}.mp3`);
+        download_music.setAttribute('download', `${sanitizeFileName(selectedSong.songName)}.mp3`);
+
+        makeAllBackground();
+        Array.from(document.getElementsByClassName('songItem'))[id - 1].style.background = "rgb(105, 105, 105, .1)";
+        makeAllplays();
+        let playlistButton = Array.from(document.getElementsByClassName('playListPlay'))[id - 1];
+        playlistButton.classList.add('bi-pause-circle-fill');
+        playlistButton.classList.remove('bi-play-circle-fill');
+    }
+};
 
 let masterPlay = document.getElementById('masterPlay');
 let wave = document.getElementById('wave');
